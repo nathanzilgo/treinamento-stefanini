@@ -36,12 +36,13 @@ public class CategoriaResource {
 	
 	@PutMapping("/{id}")
 	public ResponseEntity<Categoria> mudarNome(@PathVariable Long id, @RequestBody Categoria novaCat){
-		try {
+		Optional<Categoria> busca = categoriaService.getById(id);
+
+		if(busca.isPresent()){
 			return new ResponseEntity<Categoria>(categoriaService.mudarCategoria(novaCat),HttpStatus.OK);
-		}catch(NullPointerException nll){
+		}else{
 			return new ResponseEntity<Categoria>(HttpStatus.NOT_FOUND);
 		}
-		
 	}
 	
 	@GetMapping("/{id}")
